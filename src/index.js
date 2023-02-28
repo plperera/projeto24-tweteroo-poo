@@ -4,7 +4,7 @@ import express, { json } from 'express';
 import { authRouter } from './routers/auth-router.js';
 import { tweetRouter } from './routers/tweet-router.js';
 
-const usuarios = [];
+
 const tweets = [];
 
 const app = express();
@@ -14,20 +14,6 @@ app
   .use("/tweets", tweetRouter)
   .use("", authRouter)
 
-
-
-app.post('/sign-up', (req, res) => {
-  const { username, avatar } = req.body;
-
-  if (!username || !avatar) {
-    res.status(400).send('Todos os campos são obrigatórios!');
-    return;
-  }
-
-  usuarios.push({ username, avatar });
-
-  res.status(200).send('OK deu tudo certo');
-});
 
 app.post('/tweets', (req, res) => {
   const { tweet, username } = req.body;

@@ -1,3 +1,4 @@
+const usuarios = [];
 async function createNewUser({ username, avatar }) {
     return usuarios.push({ username, avatar });
 }
