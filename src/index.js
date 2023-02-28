@@ -1,8 +1,8 @@
 import chalk from 'chalk';
 import cors from 'cors';
 import express, { json } from 'express';
-import { authRouter } from './routers/auth-router';
-import { tweetRouter } from './routers/tweet-router';
+import { authRouter } from './routers/auth-router.js';
+import { tweetRouter } from './routers/tweet-router.js';
 
 const usuarios = [];
 const tweets = [];

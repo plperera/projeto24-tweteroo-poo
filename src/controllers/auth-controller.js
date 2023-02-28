@@ -1,4 +1,4 @@
-import authService from "../services/auth-service";
+import authService from "../services/auth-service.js";
 
 export async function newUser(req, res) {   
     try {
@@ -17,6 +17,5 @@ export async function newUser(req, res) {
 
         return res.sendStatus(500);
 
-    }
-      
+    }   
 }

@@ -1,7 +1,8 @@
+import authRepository from "../repository/auth-repository.js"
+
 async function createNewUser({username, avatar}){
 
-    usuarios.push({ username, avatar });
-
+    authRepository.createNewUser({ username, avatar })
 }
 const authService = {
     createNewUser

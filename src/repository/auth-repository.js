@@ -1,5 +1,5 @@
-async function createNewUser() {
-    return 1
+async function createNewUser({ username, avatar }) {
+    return usuarios.push({ username, avatar });
 }
 
 const authRepository = {
