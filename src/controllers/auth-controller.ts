@@ -20,16 +20,23 @@ export async function newUser(req, res) {
 
     }   
 }
-*/ 
+*/
+import { Request, Response } from "express";
+import { Usuario } from "../models/Usuario";
+
+ 
 
 export class AuthController {
+
+    usuarios: Usuario[]
+
     constructor(){
         this.usuarios = []
         this.signup = this.signup.bind(this)
         this.getAvatarByUsername = this.getAvatarByUsername.bind(this)
     }
 
-    signup(req, res){
+    signup(req: Request, res: Response){
 
         const { username, avatar } = req.body;
     
@@ -42,7 +49,7 @@ export class AuthController {
         res.status(200).send('OK deu tudo certo');
     }
 
-    getAvatarByUsername(username) {
+    getAvatarByUsername(username: string) {
         return this.usuarios.find( user => user.username === username)
     }
 }

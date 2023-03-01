@@ -1,3 +1,5 @@
+import { Request, Response } from "express";
+import { Tweet } from "../models/Tweet.js";
 import authController from "./auth-controller.js";
 
 /*
@@ -74,6 +76,9 @@ export async function getAllTweetsByUsername(req, res) {
 }
 */
 class TweetController {
+
+    tweets: Tweet[]
+
     constructor() {
         this.tweets = []
         this.newTweet = this.newTweet.bind(this)
@@ -81,7 +86,7 @@ class TweetController {
         this.getTweetsByUsername = this.getTweetsByUsername.bind(this)
     }
 
-    newTweet(req, res) {
+    newTweet(req: Request, res: Response) {
 
         const { tweet, username } = req.body;
 
@@ -89,7 +94,7 @@ class TweetController {
             return res.status(400).send('Todos os campos são obrigatórios!');
         }
 
-        const { avatar } = authController.getAvatarByUsername(username)
+        const { avatar } = authController.getAvatarByUsername(username) || {avatar: "Foto não encontrada"}
 
         this.tweets.push({username, avatar, tweet})
 
@@ -97,18 +102,18 @@ class TweetController {
 
     }
 
-    getTweets(req, res) {
+    getTweets(req: Request, res: Response) {
 
         const { page } = req.query;
 
-        if (page && page < 1) {
+        if (Number(page) && Number(page) < 1) {
             res.status(400).send('Informe uma página válida!');
             return;
         }
 
         const limite = 10;
-        const start = (page - 1) * limite;
-        const end = page * limite;
+        const start = (Number(page) - 1) * limite;
+        const end = Number(page) * limite;
 
         const tweets = this.tweets
 
@@ -124,7 +129,7 @@ class TweetController {
 
     }
 
-    getTweetsByUsername(req, res) {
+    getTweetsByUsername(req: Request, res: Response) {
 
         const { username } = req.params;
 
@@ -137,7 +142,7 @@ class TweetController {
     }
 
     reverseTweets() {
-        return [...tweets].reverse();
+        return [...this.tweets].reverse();
     }
 
 }
