@@ -1,13 +1,16 @@
 import chalk from 'chalk';
+import dotenv from 'dotenv'
 import cors from 'cors';
 import express, { json } from 'express';
 import { authRouter } from './routers/auth-router.js';
 import { tweetRouter } from './routers/tweet-router.js';
+import { connection } from './database/db.js';
 
 
 const tweets = [];
 
 const app = express();
+dotenv.config()
 app
   .use(cors())
   .use(express.json())
@@ -15,50 +18,12 @@ app
   .use("", authRouter)
 
 
-app.post('/tweets', (req, res) => {
-  const { tweet, username } = req.body;
-
-  if (!username || !tweet) {
-    return res.status(400).send('Todos os campos são obrigatórios!');
-  }
-
-  const { avatar } = usuarios.find(user => user.username === username);
-
-  tweets.push({ username, tweet, avatar });
-
-  res.status(201).send('OK, seu tweet foi criado');
+app.get('/status', async (req, res) => {
+  const teste = await connection.query(`SELECT * FROM users;`)
+  res.status(201).send(teste.rows);
+  
 });
 
-app.get('/tweets/:username', (req, res) => {
-  const { username } = req.params;
-
-  const tweetsDoUsuario = tweets.filter(t => t.username === username);
-
-  res.status(200).send(tweetsDoUsuario);
-});
-
-app.get('/tweets', (req, res) => {
-  const { page } = req.query;
-
-  if (page && page < 1) {
-    res.status(400).send('Informe uma página válida!');
-    return;
-  }
-  const limite = 10;
-  const start = (page - 1) * limite;
-  const end = page * limite;
-
-  if (tweets.length <= 10) {
-    return res.send(reverseTweets());
-  }
-
-  res.status(200).send([...tweets].reverse().slice(start, end));
-});
-
-function reverseTweets() {
-  return [...tweets].reverse();
-}
-
-app.listen(5001, () => {
-  console.log(chalk.bold.blue('Servidor funfando de boas!!!'));
+app.listen(process.env.PORT, () => {
+  console.log(chalk.bold.blue(`Servidor funfando de boas!!! OUVINDO A PORTA ${process.env.PORT}`));
 });

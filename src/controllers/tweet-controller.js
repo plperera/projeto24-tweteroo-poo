@@ -1,4 +1,4 @@
-import tweetService from "../services/tweet-service";
+import tweetService from "../services/tweet-service.js";
 
 export async function newTweet(req, res) {   
     try {
@@ -36,6 +36,10 @@ export async function getTweets(req, res) {
         const end = page * limite;
 
         const tweets = await tweetService.getTweets()
+
+        function reverseTweets() {
+            return [...tweets].reverse();
+        }
 
         if (tweets.length <= 10) {
             return res.send(reverseTweets());

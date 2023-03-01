@@ -1,6 +1,12 @@
+import { connection } from "../database/db.js";
+
 const usuarios = [];
 async function createNewUser({ username, avatar }) {
-    return usuarios.push({ username, avatar });
+
+    const newUser = await connection.query(`INSERT INTO users (avatar, username) VALUES ($1, $2);`, [avatar, username])
+
+    return newUser
+
 }
 
 const authRepository = {
