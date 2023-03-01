@@ -1,3 +1,5 @@
+import tweetService from "../services/tweet-service";
+
 export async function newTweet(req, res) {   
     try {
 
@@ -7,9 +9,7 @@ export async function newTweet(req, res) {
             return res.status(400).send('Todos os campos são obrigatórios!');
         }
 
-        const { avatar } = usuarios.find(user => user.username === username);
-
-        tweets.push({ username, tweet, avatar });
+        const newTweet = await tweetService.newTweet({ tweet, username })
 
         res.status(201).send('OK, seu tweet foi criado');
 
@@ -30,9 +30,12 @@ export async function getTweets(req, res) {
             res.status(400).send('Informe uma página válida!');
             return;
         }
+
         const limite = 10;
         const start = (page - 1) * limite;
         const end = page * limite;
+
+        const tweets = await tweetService.getTweets()
 
         if (tweets.length <= 10) {
             return res.send(reverseTweets());
