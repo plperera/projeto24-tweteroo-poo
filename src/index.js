@@ -25,5 +25,5 @@ app.get('/status', async (req, res) => {
 });
 
 app.listen(process.env.PORT, () => {
-  console.log(chalk.bold.blue(`Servidor funfando de boas!!! OUVINDO A PORTA ${process.env.PORT}`));
+  console.log(chalk.bold.bgBlack.blueBright(`   Servidor funfando de boas!!! De olho na porta: ${process.env.PORT}   ツ `));
 });

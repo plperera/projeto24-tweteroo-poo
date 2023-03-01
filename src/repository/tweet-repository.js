@@ -1,19 +1,27 @@
-const usuarios = [];
+import { connection } from "../database/db.js";
 
-async function createNewTweet({ username, avatar }) {
-    return usuarios.push({ username, avatar });
+async function createNewTweet({ avatar, username, tweet }) {
+    const allTweets = await connection.query(`INSERT INTO tweets (avatar, username, tweet) VALUES ($1, $2, $3)`, [avatar, username, tweet])
+
+    return allTweets.rows
 }
 
-async function getAvatarByUsername({ username, avatar }) {
-    return usuarios.push({ username, avatar });
+async function getAvatarByUsername({ username }) {
+    const allTweets = await connection.query(`SELECT * FROM users WHERE username=$1`, [username])
+
+    return allTweets.rows
 }
 
 async function getAllTweets() {
-    return usuarios.push({ username, avatar });
+    const allTweets = await connection.query(`SELECT * FROM tweets`)
+
+    return allTweets.rows
 }
 
-async function getAllTweetsByUsername() {
-    return usuarios.push({ username, avatar });
+async function getAllTweetsByUsername({username}) {
+    const allTweets = await connection.query(`SELECT * FROM tweets WHERE username=$1`, [username])
+
+    return allTweets.rows
 }
 
 const tweetRepository = {

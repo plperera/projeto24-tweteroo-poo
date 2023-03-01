@@ -11,7 +11,7 @@ async function newTweet({tweet, username}){
 
 }
 
-async function getTweets({username, avatar}){
+async function getTweets(){
 
     const allTweets = await tweetRepository.getAllTweets()
 
@@ -23,11 +23,13 @@ async function getAllTweetsByUsername({username}){
 
     const allUserTweets = await tweetRepository.getAllTweetsByUsername({username})
     
+    return allUserTweets
+    
 }
 const tweetService = {
     newTweet,
     getTweets,
-    getAllTweetsByUsername
+    getAllTweetsByUsername,
 }
 
 export default tweetService
