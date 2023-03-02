@@ -86,7 +86,7 @@ class TweetController {
         this.getTweetsByUsername = this.getTweetsByUsername.bind(this)
     }
 
-    newTweet(req: Request, res: Response) {
+    newTweet(req: Request, res: Response): Response {
 
         const { tweet, username } = req.body;
 
@@ -94,26 +94,25 @@ class TweetController {
             return res.status(400).send('Todos os campos são obrigatórios!');
         }
 
-        const { avatar } = authController.getAvatarByUsername(username) || {avatar: "Foto não encontrada"}
+        const { avatar } = authController.getAvatarByUsername(username)
 
         this.tweets.push({username, avatar, tweet})
 
-        res.status(201).send('OK, seu tweet foi criado');
+        return res.status(201).send('OK, seu tweet foi criado');
 
     }
 
-    getTweets(req: Request, res: Response) {
+    getTweets(req: Request, res: Response): Response  {
 
-        const { page } = req.query;
+        const page = Number(req.query.page);
 
-        if (Number(page) && Number(page) < 1) {
-            res.status(400).send('Informe uma página válida!');
-            return;
+        if (page && page < 1) {
+            return res.status(400).send('Informe uma página válida!');
         }
 
         const limite = 10;
-        const start = (Number(page) - 1) * limite;
-        const end = Number(page) * limite;
+        const start = (page - 1) * limite;
+        const end = page * limite;
 
         const tweets = this.tweets
 
@@ -125,11 +124,11 @@ class TweetController {
             return res.send(reverseTweets());
         }
 
-        res.status(200).send([...tweets].reverse().slice(start, end));
+        return res.status(200).send([...tweets].reverse().slice(start, end));
 
     }
 
-    getTweetsByUsername(req: Request, res: Response) {
+    getTweetsByUsername(req: Request, res: Response): Response  {
 
         const { username } = req.params;
 
@@ -137,11 +136,11 @@ class TweetController {
 
         const tweetsDoUsuario = tweets.filter(t => t.username === username);
 
-        res.status(200).send(tweetsDoUsuario);
+        return res.status(200).send(tweetsDoUsuario);
 
     }
 
-    reverseTweets() {
+    reverseTweets(): Tweet[] {
         return [...this.tweets].reverse();
     }
 

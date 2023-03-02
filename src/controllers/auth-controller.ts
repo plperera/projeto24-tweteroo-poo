@@ -36,7 +36,7 @@ export class AuthController {
         this.getAvatarByUsername = this.getAvatarByUsername.bind(this)
     }
 
-    signup(req: Request, res: Response){
+    signup(req: Request, res: Response): Response {
 
         const { username, avatar } = req.body;
     
@@ -46,11 +46,17 @@ export class AuthController {
 
         this.usuarios.push({ username, avatar })
         
-        res.status(200).send('OK deu tudo certo');
+        return res.status(200).send('OK deu tudo certo');
     }
 
-    getAvatarByUsername(username: string) {
-        return this.usuarios.find( user => user.username === username)
+    getAvatarByUsername(username: string): Usuario {
+        const user = this.usuarios.find( user => user.username === username)
+        
+        if(!user){
+            return {username: '', avatar: ''}
+        }
+
+        return user
     }
 }
 

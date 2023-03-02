@@ -2,8 +2,8 @@ import chalk from 'chalk';
 import dotenv from 'dotenv'
 import cors from 'cors';
 import express, { json } from 'express';
-import { authRouter } from './routers/auth-router.js';
-import { tweetRouter } from './routers/tweet-router.js';
+import { authRouter } from './routers/auth-router';
+import { tweetRouter } from './routers/tweet-router';
 import { connection } from './database/db.js';
 
 
