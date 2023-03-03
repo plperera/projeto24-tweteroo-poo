@@ -3,7 +3,7 @@ import { Request, Response } from "express";
 import { GetAllTweetsService } from "./getAllTweets-service";
  
 
-export default class CreateTweetController {
+export default class GetAllTweetsController {
 
     constructor(private getAllTweetsService: GetAllTweetsService){}
 
