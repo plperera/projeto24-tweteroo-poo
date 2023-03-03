@@ -1,11 +1,9 @@
 import chalk from 'chalk';
 import dotenv from 'dotenv'
 import cors from 'cors';
-import express, { json } from 'express';
-import { authRouter } from './routers/auth-router';
+import express from 'express';
 import { tweetRouter } from './routers/tweet-router';
-import { connection } from './database/db.js';
-
+import { authRouter } from './routers/auth-router'
 
 const tweets = [];
 
@@ -16,13 +14,6 @@ app
   .use(express.json())
   .use("/tweets", tweetRouter)
   .use("", authRouter)
-
-
-app.get('/status', async (req, res) => {
-  const teste = await connection.query(`SELECT * FROM users;`)
-  res.status(201).send(teste.rows);
-  
-});
 
 app.listen(process.env.PORT, () => {
   console.log(chalk.bold.bgBlack.blueBright(`   Servidor funfando de boas!!! De olho na porta: ${process.env.PORT}   ツ `));
