@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { Tweet } from "../models/Tweet.js";
-import authController from "./auth-controller.js";
+import { getUserService } from "../useCases/Users/getUser"
+import authController from "../useCases/Users/createUser/createUser-controller.js";
 
 /*
 import tweetService from "../services/tweet-service.js";
@@ -77,7 +78,7 @@ export async function getAllTweetsByUsername(req, res) {
 */
 class TweetController {
 
-    tweets: Tweet[]
+    private tweets: Tweet[]
 
     constructor() {
         this.tweets = []
@@ -94,7 +95,7 @@ class TweetController {
             return res.status(400).send('Todos os campos são obrigatórios!');
         }
 
-        const { avatar } = authController.getAvatarByUsername(username)
+        const { avatar } = getUserService.execute(username)
 
         this.tweets.push({username, avatar, tweet})
 
@@ -124,7 +125,7 @@ class TweetController {
             return res.send(reverseTweets());
         }
 
-        return res.status(200).send([...tweets].reverse().slice(start, end));
+        return res.status(200).send(this.reverseTweets().slice(start, end));
 
     }
 
@@ -140,7 +141,7 @@ class TweetController {
 
     }
 
-    reverseTweets(): Tweet[] {
+    private reverseTweets(): Tweet[] {
         return [...this.tweets].reverse();
     }
 
