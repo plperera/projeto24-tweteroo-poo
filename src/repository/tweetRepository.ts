@@ -16,7 +16,7 @@ export class TweetRepository{
     }
 
     insertTweet({ username, avatar, tweet }: Tweet ): void {
-        const newTweet: Tweet = new Tweet( username, avatar, tweet )
+        const newTweet: Tweet = new Tweet( username, tweet, avatar )
         this.tweets.push(newTweet)
     }
     getAll(): Tweet[] {
